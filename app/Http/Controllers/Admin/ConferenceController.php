@@ -3,63 +3,95 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Conference;
 use Illuminate\Http\Request;
 
 class ConferenceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        // sort by date
+        $conferences = Conference::orderBy('date_time', 'desc')->get();
+
+        return view('admin.conferences.index', compact('conferences'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.conferences.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   //saving conference to database
     public function store(Request $request)
     {
-        //
+        // validation
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'lecturer' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'date_time' => 'required|date',
+
+        ]);
+
+        //  add to database
+        Conference::create([
+            'title' => $request->title,
+            'lecturer' => $request->lecturer,
+            'address' => $request->address,
+            'date_time' => $request->date_time,
+            'is_active' => $request->has('is_active'),
+        ]);
+
+
+        // 3. success
+        return redirect()->route('admin.conferences.index')->with('success', 'Konferencija sėkmingai sukurta!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Conference $conference)
     {
-        //
+
+        return redirect()->route('admin.conferences.edit', $conference);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+
+    public function edit(Conference $conference)
     {
-        //
+        return view('admin.conferences.edit', compact('conference'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+   //renew conference details
+    public function update(Request $request, Conference $conference)
     {
-        //
-    }
+        // validation
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'lecturer' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'date_time' => 'required|date',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+        //  update details
+        $conference->update([
+            'title' => $request->title,
+            'lecturer' => $request->lecturer,
+            'address' => $request->address,
+            'date_time' => $request->date_time,
+            'is_active' => $request->has('is_active'),
+        ]);
+
+        // success message
+        return redirect()->route('admin.conferences.index')->with('success', 'Konferencija sėkmingai atnaujinta!');
+    }
+    //delete conference from database
+    public function destroy(Conference $conference)
+
     {
-        //
+        if ($conference->is_past) {
+            return redirect()->back()->with('error', 'Negalima ištrinti konferencijos, kuri jau įvyko. ');
+        }
+
+        $conference->delete();
+        return back()->with('success', 'Konferencija sėkmingai pašalinta!');
     }
 }

@@ -21,44 +21,17 @@
             <ul class="navbar-nav ms-auto">
                 {{-- link to client module --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('client.index') }}">
-                        <i class="bi bi-globe me-1"></i> Klientas
-                    </a>
+                    <a class="nav-link" href="#">Klientas</a>
                 </li>
                 {{-- link to employee module --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('employee.index') }}">
-                        <i class="bi bi-briefcase me-1"></i> Darbuotojas
-                    </a>
+                    <a class="nav-link" href="#">Darbuotojas</a>
                 </li>
                 {{-- link to admin module --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                        <i class="bi bi-person-gear me-1"></i> Administratorius
-                    </a>
+                    <a class="nav-link" href="#">Administratorius</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-    <span class="nav-link text-white me-2">
-
-        <p class="mb-0">
-    <strong>Prisijungęs:</strong>
-    <span class="text">Vardenis Pavardenis</span>
-        </p>
-        {{--  Prisijungęs: <strong>{{ Auth::user()->name }}</strong> --}}
-    </span>
-                </li>
-
-                {{-- log out --}}
-                <li class="nav-item">
-                    <button class="btn btn-outline-info" disabled>
-                        <i class="bi bi-box-arrow-right"></i> Atsijungti
-                    </button>
-                </li>
-            </ul>
-
         </div>
     </div>
 </nav>
