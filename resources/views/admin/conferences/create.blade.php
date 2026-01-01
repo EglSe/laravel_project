@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-10 offset-md-1">
             <h1>Kurti Naują Konferenciją</h1>
-          
+
 
             {{-- go back button--}}
             <a href="{{ route('admin.conferences.index') }}" class="btn btn-outline-secondary mb-4">
