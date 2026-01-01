@@ -17,12 +17,12 @@
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th>Nr.</th>
                         <th>Pavadinimas</th>
                         <th>Dėstytojas</th>
                         <th>Adresas</th>
                         <th>Data ir Laikas</th>
-                        <th>Aktyvi</th>
+                        <th>Aktyvus</th>
                         <th>Užsiregistravę</th>
                         <th>Veiksmai</th>
                     </tr>

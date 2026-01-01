@@ -42,7 +42,7 @@
 
 
                             <a href="{{ route('client.conferences.list') }}" class="btn btn-success btn-lg">
-                                Konferencijų Sąrašas (Visi mato)
+
                             </a>
 
                             {{-- Roles --}}
@@ -61,7 +61,6 @@
                         </div>
                     </div>
                 @else
-
                     <form method="POST" action="{{ route('login') }}" class="glass-card p-4">
                         @csrf
 
@@ -70,12 +69,13 @@
                         </h3>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">El. paštas / Grupės kodas</label>
-                            <input type="email"
-                                   id="email"
-                                   name="email"
+                            <label for="login" class="form-label">El. paštas</label>
+                            <input type="text"
+                                   id="login"
+                                   name="login"
                                    class="form-control"
-                                   value="{{ old('email') }}"
+                                   placeholder="Įveskite el. paštą arba asmeninį kodą"
+                                   value="{{ old('login') }}"
                                    required autofocus>
                         </div>
 
@@ -85,17 +85,25 @@
                                    id="password"
                                    name="password"
                                    class="form-control"
+                                   placeholder="Įveskite slaptažodį"
                                    required>
                         </div>
 
-                        <div class="form-check mb-4">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   name="remember"
-                                   id="remember">
-                            <label class="form-check-label" for="remember">
-                                Atsiminti mane
-                            </label>
+                        <div class="d-flex justify-content-between align-items-center mb-4 px-1">
+                            <div class="form-check mb-0">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="remember"
+                                       id="remember">
+                                <label class="form-check-label" for="remember">
+                                    Atsiminti mane
+                                </label>
+                            </div>
+
+                            <a href="{{ route('password.request') }}"
+                               class="small text-info text-decoration-none">
+                                Pamiršai slaptažodį?
+                            </a>
                         </div>
 
                         <div class="d-flex justify-content-center gap-3 mt-4">
@@ -103,16 +111,21 @@
                                 <i class="fas fa-sign-in-alt"></i> Prisijungti
                             </button>
 
-                            <button type="button"
-                                    class="btn btn-dark btn-lg flex-fill"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#registrationModal">
-                                <i class="fas fa-user-plus"></i> Registruotis
-                            </button>
+                        </div>
 
-                            </div>
-                    </form>
-            </div>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                Neturi paskyros?
+                                <a href="#"
+                                   class="small text-info text-decoration-none"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#registrationModal">
+                                    Registruotis
+                                </a>
+                            </small>
+                        </div>
+
 
                     {{-- JAVASCRIPT --}}
                     <script>

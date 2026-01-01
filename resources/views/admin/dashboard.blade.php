@@ -26,7 +26,7 @@
                            class="glass-item">
                             <div>
                                 <i class="bi bi-people me-2"></i>
-                                Naudotojų duomenų valdymas
+                                 Naudotojų duomenų valdymas
                             </div>
                             <i class="bi bi-chevron-right"></i>
                         </a>

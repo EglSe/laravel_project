@@ -85,13 +85,12 @@ class ConferenceController extends Controller
     }
     //delete conference from database
     public function destroy(Conference $conference)
-
     {
-        if ($conference->is_past) {
-            return redirect()->back()->with('error', 'Negalima ištrinti konferencijos, kuri jau įvyko. ');
+        if ($conference->date_time < now()) { // Patikra, ar konferencija jau įvyko
+            return redirect()->back()->with('error', __('messages.error_delete_past'));
         }
 
         $conference->delete();
-        return back()->with('success', 'Konferencija sėkmingai pašalinta!');
+        return back()->with('success', __('messages.success_deleted'));
     }
 }

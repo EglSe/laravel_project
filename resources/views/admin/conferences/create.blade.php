@@ -45,7 +45,7 @@
                         @enderror
                     </div>
 
-                    {{-- date ir time (datetime-local) --}}
+                    {{-- date and time (datetime-local) --}}
                     <div class="mb-3">
                         <label for="date_time" class="form-label">Data ir Laikas</label>
                         <input type="datetime-local" class="form-control @error('date_time') is-invalid @enderror" id="date_time" name="date_time" value="{{ old('date_time') }}" required>

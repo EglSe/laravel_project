@@ -10,10 +10,12 @@ return new class extends Migration
     {
         Schema::create('conferences', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('address', 255);
+            $table->string('title');
+            $table->string('lecturer');
+            $table->text('description')->nullable();
+            $table->string('address');
             $table->dateTime('date_time');
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(true); //
             $table->timestamps();
         });
     }

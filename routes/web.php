@@ -1,19 +1,27 @@
 <?php
+namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\ConferenceController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\ConferenceController;
 
-Auth::routes();
 
 //main page
 Route::get('/', function () {
     return view('main');
 })->name('home');
 
+Auth::routes();
+
+Route::resource('conferences', ConferenceController::class);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.dashboard');
+
+Route::get('/conferences', [ConferenceController::class, 'index'])->name('conferences.index');
 
 // Admin module
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -57,3 +65,4 @@ Route::prefix('client')->name('client.')->controller(ClientController::class)->g
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/conferences', [ConferenceController::class, 'index'])->name('conferences.index');
