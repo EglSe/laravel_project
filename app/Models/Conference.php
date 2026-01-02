@@ -28,7 +28,6 @@ class Conference extends Model
         return $this->hasMany(Registration::class);
     }
 
-
     // conference protection
     protected $casts = [
         'date_time' => 'datetime',

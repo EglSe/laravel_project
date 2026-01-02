@@ -16,6 +16,11 @@ class Registration extends Model
         'email',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function conference()
     {
         return $this->belongsTo(Conference::class);

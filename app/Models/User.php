@@ -57,9 +57,11 @@ class User extends Authenticatable
         return $this->role === 'employee';
     }
 
-    public function isAdmin()
-    {
 
-        return $this->role === 'administrator';
+        public function isAdmin() {
+        return \DB::table('users_roles')
+            ->where('user_id', $this->id)
+            ->where('role_name', 'admin')
+            ->exists();
     }
 }
