@@ -34,13 +34,22 @@
                         </tbody>
                     </table>
 
-                    <div class="mt-4 text-start">
-                        <a href="{{ route('client.conferences.list') }}"
-                           class="btn btn-success">
-                            Rodyti aktyvias konferencijas
-                        </a>
+                    <div class="mt-4 row g-2">
+                        <div class="col-6">
+                            {{-- Žalias mygtukas kaip anksčiau --}}
+                            <a href="{{ route('client.conferences.list') }}"
+                               class="btn btn-success w-100 py-2 fw">
+                                Rodyti aktyvias konferencijas
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            {{-- Pilkas mygtukas tokio pat dydžio --}}
+                            <a href="{{ route('client.my_conferences') }}"
+                               class="btn btn-secondary w-100 py-2 fw">
+                                Mano konferencijos
+                            </a>
+                        </div>
                     </div>
-
                 </div>
 
             </div>

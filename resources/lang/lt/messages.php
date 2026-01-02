@@ -28,5 +28,6 @@ return [
     'success_deleted' => 'Konferencija sėkmingai ištrinta!',
     'create_conference' => 'Sukurti konferenciją',
     'btn_save' => 'Išsaugoti',
+    'error_delete_past' => 'Įvykusių konferencijų ištrinti negalima'
 
 ];

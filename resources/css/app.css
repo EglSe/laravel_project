@@ -212,13 +212,14 @@ h1 {
 .form-wrapper {
     transition: opacity 0.3s ease-in-out;
     opacity: 0;
-    position: absolute; /* Leidžia persidengti */
+    position: absolute;
     top: 0;
     width: 100%;
     visibility: hidden;
 }
 .form-wrapper.active {
     opacity: 1;
-    position: relative; /* Grąžina atgal į srautą */
+    position: relative;
     visibility: visible;
 }
+

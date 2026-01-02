@@ -31,7 +31,7 @@
                     <table class="table table-striped table-hover align-middle">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Nr.</th>
                             <th>Pavadinimas</th>
                             <th>Dėstytojas</th>
                             <th>Data ir Laikas</th>
@@ -54,7 +54,7 @@
                                         </span>
                                 </td>
                                 <td class="text-center" style="min-width: 180px;">
-                                    {{-- Redagavimo mygtukas --}}
+                                    {{-- edit button --}}
                                     <a href="{{ route('admin.conferences.edit', $conference->id) }}" class="btn btn-sm btn-primary me-2">
                                         Redaguoti
                                     </a>

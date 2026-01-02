@@ -17,47 +17,25 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                {{-- link to client module --}}
+        <ul class="navbar-nav ms-auto">
+            @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('client.index') }}">
-                        <i class="bi bi-globe me-1"></i> Klientas
-                    </a>
-                </li>
-                {{-- link to employee module --}}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('employee.index') }}">
-                        <i class="bi bi-briefcase me-1"></i> Darbuotojas
-                    </a>
-                </li>
-                {{-- link to admin module --}}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                        <i class="bi bi-person-gear me-1"></i> Administratorius
-                    </a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-    <span class="nav-link text-white me-2">
-
-        <p class="mb-0">
-    <strong>Prisijungęs:</strong>
-    <span class="text">Vardenis Pavardenis</span>
-        </p>
-        {{--  Prisijungęs: <strong>{{ Auth::user()->name }}</strong> --}}
-    </span>
+            <span class="nav-link text-white me-2">
+                <strong>Prisijungęs:</strong> {{ Auth::user()->name }} {{ Auth::user()->surname }}
+            </span>
                 </li>
 
-                {{-- log out --}}
                 <li class="nav-item">
-                    <button class="btn btn-outline-info" disabled>
-                        <i class="bi bi-box-arrow-right"></i> Atsijungti
-                    </button>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-info">
+                            <i class="bi bi-box-arrow-right"></i> Atsijungti
+                        </button>
+                    </form>
                 </li>
-            </ul>
+
+            @endauth
+        </ul>
 
         </div>
     </div>
@@ -68,6 +46,7 @@
     <div class="container">
         @yield('content')
     </div>
+
 </main>
 </body>
 </html>

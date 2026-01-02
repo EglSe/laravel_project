@@ -19,17 +19,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                {{-- link to client module --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Klientas</a>
+        <span class="nav-link text-white me-3">
+            <strong>Prisijungęs:</strong> {{ Auth::user()->name }} {{ Auth::user()->surname }}
+        </span>
                 </li>
-                {{-- link to employee module --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Darbuotojas</a>
-                </li>
-                {{-- link to admin module --}}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Administratorius</a>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-info btn-sm">Atsijungti</button>
+                    </form>
                 </li>
             </ul>
         </div>

@@ -32,11 +32,14 @@
                     <td>{{ $user->surname }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role ?? 'N/A' }}</td>
-                    <td>
-                        {{-- edit--}}
-                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-warning">
-                            Redaguoti
-                        </a>
+                    <td class="d-flex gap-2">
+                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">Redaguoti</a>
+
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Ar tikrai norite ištrinti šį naudotoją?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Ištrinti</button>
+                        </form>
                     </td>
                 </tr>
             @empty
