@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User; // BŪTINA
-use Illuminate\Validation\Rule; // BŪTINA
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -25,7 +25,7 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * Naudoja Route Model Binding: User $user
+     *
      */
     public function edit(User $user)
     {
@@ -48,6 +48,20 @@ class UserController extends Controller
 
         // 3. success message
         return redirect()->route('admin.users.index')->with('success', 'Vartotojo "' . $user->name . ' ' . $user->surname . '" informacija sėkmingai atnaujinta.');
+    }
+
+    public function destroy($id)
+    {
+        $user = \App\Models\User::findOrFail($id);
+
+
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Negalite ištrinti savo paskyros.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'Naudotojas ištrintas.');
     }
 
 
