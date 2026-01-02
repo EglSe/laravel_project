@@ -45,6 +45,17 @@ class ClientController extends Controller
         return view('client.conferences.show', compact('conference'));
     }
 
+    public function myConferences()
+    {
+        $user = Auth::user();
+
+        $registrations = Registration::where('email', $user->email)
+            ->with('conference')
+            ->get();
+
+        return view('client.conferences.my_list', compact('registrations'));
+    }
+
     public function storeRegistration(Request $request, Conference $conference)
     {
         // 1. active conference
@@ -52,7 +63,7 @@ class ClientController extends Controller
             return back()->with('error', 'Registracija negalima. Konferencija neaktyvi.');
         }
 
-        // 2. validation
+        // validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
@@ -68,7 +79,7 @@ class ClientController extends Controller
             return back()->with('error', 'Jūs jau esate užsiregistravęs į šią konferenciją!');
         }
 
-        // 4. Registracijos Saugojimas
+        // Saving registration
         try {
             Registration::create([
                 'conference_id' => $conference->id,

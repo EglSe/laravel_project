@@ -19,13 +19,15 @@ class EmployeeController extends Controller
     }
 
     //shows conference details
-    public function show(string $id)
+    public function show($id)
     {
 
-        $conference = Conference::with('registrations')->findOrFail($id);
+        $conference = Conference::with('registrations.user')->findOrFail($id);
 
-        $registrations = $conference->registrations()->get();
+        // taking registration
+        $registrations = $conference->registrations;
 
         return view('employee.conferences.show', compact('conference', 'registrations'));
     }
+
 }
