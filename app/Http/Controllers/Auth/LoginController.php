@@ -3,38 +3,51 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    //
+    public function showLoginForm() {
+        return view('auth.login'); // Jūsų forma yra main.blade.php faile
+    }
 
-    use AuthenticatesUsers;
+    //
+    public function login(Request $request) {
+        // 1. Validuojame 'email' (nes toks yra name="email" jūsų formoje)
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+        // 2. KLAIDOS TAISYMAS: Naudojame $credentials kintamąjį tiesiogiai
+        // Tai automatiškai paims 'email' ir 'password' iš užklausos
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+            $user = Auth::user();
+
+            if ($user->isAdmin()) {
+                return redirect('/admin');
+            }
+
+            if ($user->role === 'employee') {
+                return redirect()->route('employee.index');
+            }
+
+            return redirect()->intended('/');
+        }
+
+        // 3. Jei nepavyko, grąžiname klaidą tam pačiam 'email' laukeliui
+        return back()->withErrors(['email' => 'Neteisingi duomenys.']);
+    }
+    public function logout(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // 3. Po atsijungimo – iškart į login formą
+        return redirect()->route('login');
     }
 }

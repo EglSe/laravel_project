@@ -1,5 +1,4 @@
 <?php
-namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -7,62 +6,54 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ConferenceController as AdminConferenceController;
 use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\Auth\LoginController;
 
-
-//main page
+// main page
 Route::get('/', function () {
-    return view('main');
-})->name('home');
+    $user = Auth::user();
 
-Auth::routes();
+    // if admin --- his main page
+    if ($user->isAdmin()) {
+        return redirect()->route('admin.dashboard');
+    }
 
-Route::resource('conferences', ConferenceController::class);
+    // if employee --- his main page
+    if ($user->role === 'employee') {
+        return redirect()->route('employee.index');
+    }
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.dashboard');
+    // if client
+    return app(App\Http\Controllers\ClientController::class)->index();
+})->middleware('auth')->name('home');
+//
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Conferences
 Route::get('/conferences', [ConferenceController::class, 'index'])->name('conferences.index');
+Route::get('/conferences/{conference}', [ConferenceController::class, 'show'])->name('conferences.show');
 
-// Admin module
-Route::prefix('admin')->name('admin.')->group(function () {
-
-    // Admin
+// Admin
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-
-    //  Admin\ConferenceController
-    Route::resource('conferences', ConferenceController::class)
-        ->names('conferences');
-
-    // Admin\UserController
-    Route::resource('users', UserController::class)
-        ->only(['index', 'edit', 'update'])
-        ->names('users');
+    Route::resource('conferences', AdminConferenceController::class); // Naudojame Admin variantą
+    Route::resource('users', UserController::class)->only(['index', 'edit', 'update', 'destroy']);
 });
 
-//Employee module
-Route::prefix('employee')->name('employee.')->controller(EmployeeController::class)->group(function () {
-    // list of conferences
-    Route::get('/', 'index')->name('index');
-    // conference details (registered users)
-    Route::get('/conference/{conference}', 'show')->name('show');
+// Employee
+Route::prefix('employee')->name('employee.')->middleware(['auth'])->group(function () {
+    Route::get('/', [EmployeeController::class, 'index'])->name('index');Route::get('/conference/{id}', [EmployeeController::class, 'show'])->name('show');
 });
 
-//Client module
-Route::prefix('client')->name('client.')->controller(ClientController::class)->group(function () {
-    //list of conferences
-    Route::get('/', 'index')->name('index');
-    //conference view
-    Route::get('/conferences', 'listConferences')->name('conferences.list');
-
-    Route::get('/conference/{conference}', 'show')->name('show');
-    // registration
-    Route::post('/conference/{conference}/register', 'storeRegistration')->name('register.store');
+// Client
+Route::prefix('client')->name('client.')->middleware(['auth'])->group(function () {
+    Route::get('/', [ClientController::class, 'index'])->name('index');
+    Route::get('/conferences', [ClientController::class, 'listConferences'])->name('conferences.list');
+    Route::get('/conferences/{conference}', [ClientController::class, 'show'])->name('show');
+    Route::post('/conferences/{conference}/register', [ClientController::class, 'storeRegistration'])->name('register.store');  Route::get('/my-conferences', [ClientController::class, 'myConferences'])->name('my_conferences');
 });
 
-
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/conferences', [ConferenceController::class, 'index'])->name('conferences.index');
+Auth::routes(['register' => true]);
